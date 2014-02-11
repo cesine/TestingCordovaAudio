@@ -35,49 +35,6 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
 
-        assetsfilebutton.onclick = function() {
-            var media = new Media("GR02A_Gris_MOD.mp3", function() {
-                console.log("media successs")
-                media.play();
-            }, function() {
-                console.log("media error");
-            }, function(status) {
-                console.log("media status " + status);
-            });
-        }
-
-        assets2filebutton.onclick = function() {
-            var media = new Media("/assets/GR02A_Gris_MOD.mp3", function() {
-                console.log("media successs")
-                media.play();
-            }, function() {
-                console.log("media error");
-            }, function(status) {
-                console.log("media status " + status);
-            });
-        }
-
-        audioserverbutton.onclick = function() {
-            var media = new Media("http://phophlo.ca/GR02A_Gris_MOD.mp3", function() {
-                console.log("media successs")
-                media.play();
-            }, function() {
-                console.log("media error");
-            }, function(status) {
-                console.log("media status " + status);
-            });
-        }
-
-        audio2serverbutton.onclick = function() {
-            var media = new Media("http://phophlo.ca/pageflip2.mp3", function() {
-                console.log("media successs")
-                media.play();
-            }, function() {
-                console.log("media error");
-            }, function(status) {
-                console.log("media status " + status);
-            });
-        }
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
