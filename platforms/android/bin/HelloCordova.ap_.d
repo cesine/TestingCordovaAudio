@@ -21,7 +21,12 @@
 /Users/gina/Downloads/TestingAudio/platforms/android/assets/www/index.html \
 /Users/gina/Downloads/TestingAudio/platforms/android/assets/www/js \
 /Users/gina/Downloads/TestingAudio/platforms/android/assets/www/pageflip2.mp3 \
+/Users/gina/Downloads/TestingAudio/platforms/android/assets/www/plugins \
 /Users/gina/Downloads/TestingAudio/platforms/android/assets/www/css/index.css \
 /Users/gina/Downloads/TestingAudio/platforms/android/assets/www/img/logo.png \
 /Users/gina/Downloads/TestingAudio/platforms/android/assets/www/js/index.js \
+/Users/gina/Downloads/TestingAudio/platforms/android/assets/www/plugins/org.apache.cordova.media \
+/Users/gina/Downloads/TestingAudio/platforms/android/assets/www/plugins/org.apache.cordova.media/www \
+/Users/gina/Downloads/TestingAudio/platforms/android/assets/www/plugins/org.apache.cordova.media/www/Media.js \
+/Users/gina/Downloads/TestingAudio/platforms/android/assets/www/plugins/org.apache.cordova.media/www/MediaError.js \
 /Users/gina/Downloads/TestingAudio/platforms/android/bin/AndroidManifest.xml \
