@@ -1,118 +1,100 @@
-<!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
+  <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+                  "http://www.w3.org/TR/html4/strict.dtd">
+    <html>
+      <head>
+        <title>Media Example</title>
 
-    http://www.apache.org/licenses/LICENSE-2.0
+        <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+        <script type="text/javascript" charset="utf-8">
 
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="format-detection" content="telephone=no" />
-    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-    <meta name="viewport" content="user-scalable=yes, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-    <title>Hello World</title>
-</head>
-<body>
-    <div class="app">
-        <h1>Apache Cordova</h1>
-        <div id="" class="">
-            <p class="event listening">Connecting to Device</p>
-            <p class="event received">Device is Ready</p>
+        // Wait for device API libraries to load
+        //
+        document.addEventListener("deviceready", onDeviceReady, false);
 
-        </div>
-        <p>GR02A_Gris_MOD.mp3</p>
-        <button id="assetsfilebutton">Play</button>
-
-        <audio id="assetsfile" controls>
-            <source src="GR02A_Gris_MOD.mp3" type="audio/mpeg" />
-        </audio>
-
-
-        <p>/assets/GR02A_Gris_MOD.mp3</p>
-        <button id="assets2filebutton">Play</button>
-
-        <audio id="assets2file" controls>
-            <source src="/assets/GR02A_Gris_MOD.mp3" type="audio/mpeg" />
-        </audio>
-
-
-        <p>http://phophlo.ca/GR02A_Gris_MOD.mp3</p>
-        <button id="audioserverbutton">Play</button>
-
-        <audio id="audioserver" controls>
-            <source src="http://phophlo.ca/GR02A_Gris_MOD.mp3" type="audio/mpeg" />
-        </audio>
-
-        <p>http://phophlo.ca/pageflip2.mp3</p>
-        <button  id="audio2serverbutton">Play</button>
-
-        <audio id="audio2server" controls>
-            <source src="http://phophlo.ca/pageflip2.mp3" type="audio/mpeg" />
-        </audio>
-
-    </div>
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
-    <script type="text/javascript">
-    app.initialize();
-
-
-        document.getElementById("assetsfilebutton").onclick = function() {
-            var media = new Media("GR02A_Gris_MOD.mp3", function() {
-                console.log("media successs")
-                media.play();
-            }, function() {
-                console.log("media error");
-            }, function(status) {
-                console.log("media status " + status);
-            });
+        // device APIs are available
+        //
+        function onDeviceReady() {
+            playAudio("http://audio.ibeat.org/content/p1rj1s/p1rj1s_-_rockGuitar.mp3");
         }
 
-        document.getElementById("assets2filebutton").onclick = function() {
-            var media = new Media("/assets/GR02A_Gris_MOD.mp3", function() {
-                console.log("media successs")
-                media.play();
-            }, function() {
-                console.log("media error");
-            }, function(status) {
-                console.log("media status " + status);
-            });
+        // Audio player
+        //
+        var my_media = null;
+        var mediaTimer = null;
+
+        // Play audio
+        //
+        function playAudio(src) {
+            // Create Media object from src
+            my_media = new Media(src, onSuccess, onError);
+
+            // Play audio
+            my_media.play();
+
+            // Update my_media position every second
+            if (mediaTimer == null) {
+                mediaTimer = setInterval(function() {
+                    // get my_media position
+                    my_media.getCurrentPosition(
+                        // success callback
+                        function(position) {
+                            if (position > -1) {
+                                setAudioPosition((position) + " sec");
+                            }
+                        },
+                        // error callback
+                        function(e) {
+                            console.log("Error getting pos=" + e);
+                            setAudioPosition("Error: " + e);
+                        }
+                    );
+                }, 1000);
+            }
         }
 
-        document.getElementById("audioserverbutton").onclick = function() {
-            var media = new Media("http://phophlo.ca/GR02A_Gris_MOD.mp3", function() {
-                console.log("media successs")
-                media.play();
-            }, function() {
-                console.log("media error");
-            }, function(status) {
-                console.log("media status " + status);
-            });
+        // Pause audio
+        //
+        function pauseAudio() {
+            if (my_media) {
+                my_media.pause();
+            }
         }
 
-        document.getElementById("audio2serverbutton").onclick = function() {
-            var media = new Media("http://phophlo.ca/pageflip2.mp3", function() {
-                console.log("media successs")
-                media.play();
-            }, function() {
-                console.log("media error");
-            }, function(status) {
-                console.log("media status " + status);
-            });
+        // Stop audio
+        //
+        function stopAudio() {
+            if (my_media) {
+                my_media.stop();
+            }
+            clearInterval(mediaTimer);
+            mediaTimer = null;
         }
-    </script>
-</body>
-</html>
+
+        // onSuccess Callback
+        //
+        function onSuccess() {
+            console.log("playAudio():Audio Success");
+        }
+
+        // onError Callback
+        //
+        function onError(error) {
+            alert('code: '    + error.code    + '\n' +
+                  'message: ' + error.message + '\n');
+        }
+
+        // Set audio position
+        //
+        function setAudioPosition(position) {
+            document.getElementById('audio_position').innerHTML = position;
+        }
+
+        </script>
+      </head>
+      <body>
+        <a href="#" class="btn large" onclick="playAudio('http://audio.ibeat.org/content/p1rj1s/p1rj1s_-_rockGuitar.mp3');">Play Audio</a>
+        <a href="#" class="btn large" onclick="pauseAudio();">Pause Playing Audio</a>
+        <a href="#" class="btn large" onclick="stopAudio();">Stop Playing Audio</a>
+        <p id="audio_position"></p>
+      </body>
+    </html>
